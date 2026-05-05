@@ -24,6 +24,28 @@ services:
       start_period: 30s
     restart: unless-stopped
 
+  # Datadog Agent
+  datadog-agent:
+    image: gcr.io/datadoghq/agent:7
+    container_name: flash-quiz-bob-datadog
+    environment:
+      DD_API_KEY: ${DD_API_KEY}
+      DD_SITE: ${DD_SITE:-datadoghq.com}
+      DD_APM_ENABLED: "true"
+      DD_APM_NON_LOCAL_TRAFFIC: "true"
+      DD_LOGS_ENABLED: "true"
+      DD_LOGS_CONFIG_CONTAINER_COLLECT_ALL: "true"
+      DD_CONTAINER_EXCLUDE: "name:flash-quiz-bob-datadog"
+      DD_TAGS: "env:${DD_ENV} service:flash-quiz-bob"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /proc/:/host/proc/:ro
+      - /sys/fs/cgroup/:/host/sys/fs/cgroup:ro
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+    networks:
+      - ome_flashquiz_bob
+    restart: unless-stopped
+
   # Node.js APIサーバー
   api:
     build: ./api
@@ -40,13 +62,15 @@ services:
       DD_SERVICE: flash-quiz-bob-api
       DD_ENV: ${DD_ENV}
       DD_VERSION: ${DD_VERSION}
-      DD_AGENT_HOST: ${DD_AGENT_HOST}
-      DD_TRACE_AGENT_PORT: ${DD_TRACE_AGENT_PORT}
-      DD_LOGS_INJECTION: ${DD_LOGS_INJECTION}
-      DD_TRACE_SAMPLE_RATE: ${DD_TRACE_SAMPLE_RATE}
+      DD_AGENT_HOST: datadog-agent
+      DD_TRACE_AGENT_PORT: 8126
+      DD_LOGS_INJECTION: "true"
+      DD_TRACE_SAMPLE_RATE: "1.0"
     depends_on:
       mysql:
         condition: service_healthy
+      datadog-agent:
+        condition: service_started
     networks:
       - ome_flashquiz_bob
     healthcheck:
