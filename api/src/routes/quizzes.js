@@ -23,12 +23,15 @@ router.get('/:categoryId', randomSlowdown, async (req, res, next) => {
       throw error;
     }
 
-    // ランダムに10問取得
+    // ランダムに10問取得（選択肢が4つ揃っているもののみ）
     const [quizzes] = await db.query(
-      `SELECT id, question 
-       FROM quizzes 
-       WHERE category_id = ? 
-       ORDER BY RAND() 
+      `SELECT DISTINCT q.id, q.question
+       FROM quizzes q
+       INNER JOIN quiz_options qo ON q.id = qo.quiz_id
+       WHERE q.category_id = ?
+       GROUP BY q.id
+       HAVING COUNT(qo.option_number) = 4
+       ORDER BY RAND()
        LIMIT 10`,
       [categoryId]
     );
