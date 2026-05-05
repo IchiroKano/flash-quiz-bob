@@ -59,9 +59,7 @@ services:
 
   # Nginx Webサーバー
   nginx:
-    build:
-      context: .
-      dockerfile: nginx/Dockerfile
+    build: ./nginx
     container_name: flash-quiz-bob-web
     ports:
       - "8083:80"
