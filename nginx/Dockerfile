@@ -1,7 +1,7 @@
 FROM nginx:alpine
 
 # 設定ファイルをコピー
-COPY ./nginx.conf /etc/nginx/nginx.conf
+COPY nginx.conf /etc/nginx/nginx.conf
 
 # SSL証明書ディレクトリ作成
 RUN mkdir -p /etc/nginx/ssl
