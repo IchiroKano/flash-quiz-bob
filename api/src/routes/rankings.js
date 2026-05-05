@@ -25,7 +25,7 @@ router.get('/:categoryId', async (req, res, next) => {
     // ランキング取得（正解数降順、回答時間昇順、登録日時昇順）
     const [rankings] = await db.query(
       `SELECT
-        @rank := @rank + 1 AS `rank`,
+        @rank := @rank + 1 AS \`rank\`,
         nickname,
         total_correct AS totalCorrect,
         total_time_ms AS totalTimeMs,
