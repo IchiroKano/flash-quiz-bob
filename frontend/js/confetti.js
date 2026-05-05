@@ -4,6 +4,7 @@ let confettiParticles = [];
 let confettiActive = false;
 
 function startConfetti() {
+    console.log('startConfetti called'); // デバッグログ
     confettiActive = true;
     confettiParticles = [];
     
@@ -11,9 +12,11 @@ function startConfetti() {
     for (let i = 0; i < 150; i++) {
         confettiParticles.push(new ConfettiParticle());
     }
+    console.log('Confetti particles created:', confettiParticles.length); // デバッグログ
 }
 
 function stopConfetti() {
+    console.log('stopConfetti called'); // デバッグログ
     confettiActive = false;
     confettiParticles = [];
 }

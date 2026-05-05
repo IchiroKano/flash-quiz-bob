@@ -232,19 +232,23 @@ function displayFinalResult(result) {
         <div class="result-ranking">第${result.ranking}位</div>
     `;
     
-    // ランキング1位の場合のみ紙吹雪でお祝い
-    if (result.ranking === 1) {
+    // ランキング3位以内で紙吹雪でお祝い
+    if (result.ranking <= 3) {
+        const celebrationText = result.ranking === 1
+            ? '🎉🎊 ランキング1位おめでとうございます！ 🎊🎉'
+            : `🎉 ランキング${result.ranking}位おめでとうございます！ 🎉`;
+        
         elements.finalResult.innerHTML = scoreHtml +
-            '<div class="celebration">🎉🎊 ランキング1位おめでとうございます！ 🎊🎉</div>';
+            `<div class="celebration">${celebrationText}</div>`;
+        
+        console.log('Starting confetti for rank:', result.ranking); // デバッグログ
         startConfetti();
         
         // 10秒後に紙吹雪停止
         setTimeout(() => {
+            console.log('Stopping confetti'); // デバッグログ
             stopConfetti();
         }, 10000);
-    } else if (result.ranking <= 3) {
-        elements.finalResult.innerHTML = scoreHtml +
-            '<div class="celebration">🎉 おめでとうございます！ 🎉</div>';
     } else {
         elements.finalResult.innerHTML = scoreHtml;
     }
