@@ -1,3 +1,5 @@
+/* 昭和レトロ風デザイン - フラッシュクイズ */
+
 /* リセットとベーススタイル */
 * {
     margin: 0;
@@ -6,11 +8,40 @@
 }
 
 body {
-    font-family: 'Noto Sans JP', sans-serif;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    font-family: 'Noto Serif JP', serif;
+    background: #F5E6D3;
+    background-image: 
+        repeating-linear-gradient(
+            0deg,
+            transparent,
+            transparent 2px,
+            rgba(139, 69, 19, 0.03) 2px,
+            rgba(139, 69, 19, 0.03) 4px
+        ),
+        repeating-linear-gradient(
+            90deg,
+            transparent,
+            transparent 2px,
+            rgba(139, 69, 19, 0.03) 2px,
+            rgba(139, 69, 19, 0.03) 4px
+        );
     min-height: 100vh;
-    color: #2C3E50;
+    color: #3E2723;
     overflow-x: hidden;
+    position: relative;
+}
+
+/* 紙質感のノイズ効果 */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><filter id="noise"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" /></filter><rect width="100" height="100" filter="url(%23noise)" opacity="0.05"/></svg>');
+    pointer-events: none;
+    z-index: 1;
 }
 
 /* コンテナ */
@@ -18,6 +49,8 @@ body {
     max-width: 800px;
     margin: 0 auto;
     padding: 20px;
+    position: relative;
+    z-index: 2;
 }
 
 /* 画面切り替え */
@@ -39,11 +72,17 @@ body {
 
 .title {
     font-size: 4rem;
-    font-weight: 700;
-    color: #FFD93D;
-    text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.3);
+    font-weight: 900;
+    color: #FF6B35;
+    text-shadow: 
+        3px 3px 0 #8B4513,
+        -1px -1px 0 #8B4513,
+        1px -1px 0 #8B4513,
+        -1px 1px 0 #8B4513,
+        1px 1px 0 #8B4513;
     margin-bottom: 1rem;
     animation: titleBounce 2s ease-in-out infinite;
+    letter-spacing: 0.1em;
 }
 
 @keyframes titleBounce {
@@ -53,8 +92,10 @@ body {
 
 .subtitle {
     font-size: 1.5rem;
-    color: #F8F9FA;
+    color: #8B4513;
     margin-bottom: 3rem;
+    font-weight: 700;
+    text-shadow: 1px 1px 2px rgba(139, 69, 19, 0.3);
 }
 
 /* 入力グループ */
@@ -64,9 +105,10 @@ body {
 
 .input-group label {
     display: block;
-    color: #F8F9FA;
+    color: #5D4037;
     font-size: 1.2rem;
     margin-bottom: 0.5rem;
+    font-weight: 700;
 }
 
 .input-group input {
@@ -74,21 +116,24 @@ body {
     max-width: 400px;
     padding: 1rem;
     font-size: 1.1rem;
-    border: 3px solid #FFD93D;
-    border-radius: 10px;
-    background: white;
+    font-family: 'Noto Serif JP', serif;
+    border: 3px solid #8B4513;
+    border-radius: 5px;
+    background: #FFF8DC;
     transition: all 0.3s;
+    box-shadow: 2px 2px 5px rgba(139, 69, 19, 0.2);
 }
 
 .input-group input:focus {
     outline: none;
-    border-color: #FF6B6B;
-    box-shadow: 0 0 20px rgba(255, 107, 107, 0.5);
+    border-color: #D2691E;
+    box-shadow: 0 0 10px rgba(210, 105, 30, 0.5);
+    background: #FFFACD;
 }
 
 .hint {
     display: block;
-    color: #FFD93D;
+    color: #8B4513;
     font-size: 0.9rem;
     margin-top: 0.5rem;
 }
@@ -98,52 +143,60 @@ body {
     padding: 1rem 2rem;
     font-size: 1.2rem;
     font-weight: 700;
-    border: none;
-    border-radius: 10px;
+    font-family: 'Noto Serif JP', serif;
+    border: 3px solid #5D4037;
+    border-radius: 5px;
     cursor: pointer;
     transition: all 0.3s;
     margin: 0.5rem;
+    box-shadow: 3px 3px 0 rgba(93, 64, 55, 0.3);
+    position: relative;
+}
+
+.btn:active {
+    transform: translate(2px, 2px);
+    box-shadow: 1px 1px 0 rgba(93, 64, 55, 0.3);
 }
 
 .btn-primary {
-    background: #FF6B6B;
-    color: white;
-    box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+    background: #8B4513;
+    color: #FFF8DC;
 }
 
 .btn-primary:hover:not(:disabled) {
-    background: #FF5252;
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(255, 107, 107, 0.6);
+    background: #A0522D;
+    border-color: #6B3410;
 }
 
 .btn-primary:disabled {
-    background: #ccc;
+    background: #D7CCC8;
+    color: #9E9E9E;
+    border-color: #BCAAA4;
     cursor: not-allowed;
     box-shadow: none;
 }
 
 .btn-secondary {
-    background: #6BCB77;
-    color: white;
-    box-shadow: 0 4px 15px rgba(107, 203, 119, 0.4);
+    background: #D2691E;
+    color: #FFF8DC;
 }
 
 .btn-secondary:hover {
-    background: #5AB968;
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(107, 203, 119, 0.6);
+    background: #CD853F;
+    border-color: #8B4513;
 }
 
 /* ランキング表示 */
 .ranking-display {
     margin-top: 2rem;
-    background: white;
-    border-radius: 15px;
+    background: #FFF8DC;
+    border-radius: 10px;
+    border: 3px solid #8B4513;
     padding: 2rem;
     max-width: 600px;
     margin-left: auto;
     margin-right: auto;
+    box-shadow: 5px 5px 10px rgba(139, 69, 19, 0.3);
 }
 
 .ranking-display.hidden {
@@ -151,8 +204,12 @@ body {
 }
 
 .ranking-display h2 {
-    color: #667eea;
+    color: #8B4513;
     margin-bottom: 1rem;
+    font-size: 1.8rem;
+    text-align: center;
+    border-bottom: 3px double #8B4513;
+    padding-bottom: 0.5rem;
 }
 
 .ranking-list {
@@ -163,8 +220,9 @@ body {
     display: flex;
     justify-content: space-between;
     padding: 1rem;
-    border-bottom: 1px solid #eee;
+    border-bottom: 2px dotted #D2691E;
     align-items: center;
+    background: linear-gradient(to right, rgba(255, 248, 220, 0.5), transparent);
 }
 
 .ranking-item:last-child {
@@ -174,12 +232,13 @@ body {
 .ranking-rank {
     font-size: 1.5rem;
     font-weight: 700;
-    color: #667eea;
+    color: #8B4513;
     min-width: 50px;
 }
 
 .ranking-rank.top3 {
-    color: #FFD93D;
+    color: #FF6B35;
+    text-shadow: 1px 1px 2px rgba(255, 107, 53, 0.3);
 }
 
 .ranking-info {
@@ -190,11 +249,12 @@ body {
 .ranking-nickname {
     font-weight: 700;
     font-size: 1.1rem;
+    color: #5D4037;
 }
 
 .ranking-stats {
     font-size: 0.9rem;
-    color: #666;
+    color: #8B4513;
 }
 
 /* カテゴリ選択 */
@@ -207,27 +267,36 @@ body {
 
 .category-item {
     padding: 2rem;
-    background: white;
-    border-radius: 15px;
+    background: #FFF8DC;
+    border: 3px solid #8B4513;
+    border-radius: 5px;
     cursor: pointer;
     transition: all 0.3s;
     text-align: center;
     font-size: 1.2rem;
     font-weight: 700;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    box-shadow: 4px 4px 0 rgba(139, 69, 19, 0.3);
+    color: #5D4037;
 }
 
 .category-item:hover:not(.disabled) {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-    background: #FF6B6B;
-    color: white;
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0 rgba(139, 69, 19, 0.3);
+    background: #FFEFD5;
+    border-color: #D2691E;
+}
+
+.category-item:active:not(.disabled) {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0 rgba(139, 69, 19, 0.3);
 }
 
 .category-item.disabled {
-    background: #e0e0e0;
-    color: #999;
+    background: #EFEBE9;
+    color: #A1887F;
+    border-color: #BCAAA4;
     cursor: not-allowed;
+    box-shadow: 2px 2px 0 rgba(161, 136, 127, 0.3);
 }
 
 .category-item.disabled::after {
@@ -238,9 +307,14 @@ body {
 /* カウントダウン */
 .countdown-number {
     font-size: 15rem;
-    font-weight: 700;
-    color: #FFD93D;
-    text-shadow: 8px 8px 16px rgba(0, 0, 0, 0.3);
+    font-weight: 900;
+    color: #FF6B35;
+    text-shadow: 
+        5px 5px 0 #8B4513,
+        -2px -2px 0 #8B4513,
+        2px -2px 0 #8B4513,
+        -2px 2px 0 #8B4513,
+        2px 2px 0 #8B4513;
     animation: countdownPulse 1s ease-in-out;
 }
 
@@ -252,10 +326,11 @@ body {
 
 /* クイズ画面 */
 #quiz-screen .container {
-    background: white;
-    border-radius: 20px;
+    background: #FFF8DC;
+    border-radius: 10px;
+    border: 4px solid #8B4513;
     padding: 3rem;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    box-shadow: 8px 8px 0 rgba(139, 69, 19, 0.3);
 }
 
 .quiz-header {
@@ -263,16 +338,19 @@ body {
     justify-content: space-between;
     margin-bottom: 2rem;
     font-size: 1.2rem;
-    color: #667eea;
+    color: #8B4513;
     font-weight: 700;
+    padding-bottom: 1rem;
+    border-bottom: 3px double #D2691E;
 }
 
 .quiz-question {
     font-size: 1.8rem;
     font-weight: 700;
     margin-bottom: 2rem;
-    line-height: 1.6;
-    color: #2C3E50;
+    line-height: 1.8;
+    color: #3E2723;
+    text-shadow: 1px 1px 2px rgba(62, 39, 35, 0.1);
 }
 
 .quiz-options {
@@ -283,63 +361,84 @@ body {
 .option-btn {
     padding: 1.5rem;
     font-size: 1.2rem;
+    font-family: 'Noto Serif JP', serif;
     text-align: left;
-    background: #F8F9FA;
-    border: 3px solid #e0e0e0;
-    border-radius: 10px;
+    background: #FFF8DC;
+    border: 3px solid #8B4513;
+    border-radius: 5px;
     cursor: pointer;
     transition: all 0.3s;
+    color: #5D4037;
+    font-weight: 600;
+    box-shadow: 3px 3px 0 rgba(139, 69, 19, 0.2);
 }
 
 .option-btn:hover {
-    background: #667eea;
-    color: white;
-    border-color: #667eea;
-    transform: translateX(10px);
+    background: #FFEFD5;
+    border-color: #D2691E;
+    transform: translate(-2px, -2px);
+    box-shadow: 5px 5px 0 rgba(139, 69, 19, 0.3);
+}
+
+.option-btn:active {
+    transform: translate(1px, 1px);
+    box-shadow: 2px 2px 0 rgba(139, 69, 19, 0.2);
 }
 
 /* 正誤表示 */
 #result-screen .container {
     text-align: center;
-    background: white;
-    border-radius: 20px;
+    background: #FFF8DC;
+    border-radius: 10px;
+    border: 4px solid #8B4513;
     padding: 3rem;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    box-shadow: 8px 8px 0 rgba(139, 69, 19, 0.3);
 }
 
 .answer-result {
     font-size: 5rem;
-    font-weight: 700;
+    font-weight: 900;
     margin-bottom: 2rem;
+    text-shadow: 3px 3px 0 rgba(0, 0, 0, 0.2);
 }
 
 .answer-result.correct {
-    color: #6BCB77;
+    color: #FF6B35;
 }
 
 .answer-result.incorrect {
-    color: #FF6B6B;
+    color: #8B4513;
 }
 
 .correct-answer {
     font-size: 1.5rem;
     margin-bottom: 2rem;
-    color: #2C3E50;
+    color: #5D4037;
+    font-weight: 700;
 }
 
 .next-countdown {
     font-size: 1.2rem;
-    color: #667eea;
+    color: #8B4513;
+    font-weight: 700;
 }
 
 /* 最終結果 */
 #final-screen .container {
     text-align: center;
-    background: white;
-    border-radius: 20px;
+    background: #FFF8DC;
+    border-radius: 10px;
+    border: 4px solid #8B4513;
     padding: 3rem;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    box-shadow: 8px 8px 0 rgba(139, 69, 19, 0.3);
     position: relative;
+}
+
+#final-screen h2 {
+    font-size: 2.5rem;
+    color: #FF6B35;
+    margin-bottom: 2rem;
+    text-shadow: 2px 2px 0 #8B4513;
 }
 
 .final-result {
@@ -348,22 +447,25 @@ body {
 
 .result-score {
     font-size: 3rem;
-    font-weight: 700;
-    color: #667eea;
+    font-weight: 900;
+    color: #8B4513;
     margin: 1rem 0;
+    text-shadow: 2px 2px 0 rgba(139, 69, 19, 0.2);
 }
 
 .result-time {
     font-size: 1.5rem;
-    color: #666;
+    color: #5D4037;
     margin: 1rem 0;
+    font-weight: 700;
 }
 
 .result-ranking {
     font-size: 2rem;
-    font-weight: 700;
-    color: #FFD93D;
+    font-weight: 900;
+    color: #FF6B35;
     margin: 1rem 0;
+    text-shadow: 2px 2px 0 rgba(255, 107, 53, 0.3);
 }
 
 .celebration {
@@ -389,7 +491,7 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.7);
+    background: rgba(139, 69, 19, 0.8);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -403,8 +505,8 @@ body {
 .spinner {
     width: 60px;
     height: 60px;
-    border: 6px solid #f3f3f3;
-    border-top: 6px solid #FF6B6B;
+    border: 6px solid #FFF8DC;
+    border-top: 6px solid #FF6B35;
     border-radius: 50%;
     animation: spin 1s linear infinite;
 }
@@ -435,6 +537,23 @@ body {
     .answer-result {
         font-size: 3rem;
     }
+    
+    #quiz-screen .container,
+    #result-screen .container,
+    #final-screen .container {
+        padding: 2rem;
+    }
 }
+
+/* 昭和レトロ装飾要素 */
+#category-screen h2,
+#final-screen h2 {
+    color: #FF6B35;
+    text-shadow: 2px 2px 0 #8B4513;
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+}
+
+/* Made with Bob - 昭和レトロ風 */
 
 /* Made with Bob */
