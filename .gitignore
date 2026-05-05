@@ -1,0 +1,42 @@
+# 環境変数
+.env
+
+# Node.js
+node_modules/
+npm-debug.log
+yarn-error.log
+package-lock.json
+
+# Docker
+.docker/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# ログ
+*.log
+logs/
+
+# SSL証明書（本番環境用）
+nginx/ssl/*.pem
+nginx/ssl/*.key
+nginx/ssl/*.crt
+
+# バックアップ
+*.sql.backup
+*.bak
+
+# 一時ファイル
+tmp/
+temp/
+*.tmp
+
+# Made with Bob

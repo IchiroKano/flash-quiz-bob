@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>フラッシュクイズ - 昭和レトロの想い出</title>
+    <link rel="stylesheet" href="/flashquiz_bob/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- タイトル画面 -->
+    <div id="title-screen" class="screen active">
+        <div class="container">
+            <h1 class="title">フラッシュクイズ</h1>
+            <p class="subtitle">昭和レトロの想い出</p>
+            
+            <div class="input-group">
+                <label for="nickname">ニックネーム</label>
+                <input type="text" id="nickname" placeholder="ニックネームを入力" maxlength="50">
+                <small class="hint">※8文字以上入力してください</small>
+            </div>
+            
+            <button id="start-btn" class="btn btn-primary" disabled>スタート</button>
+            <button id="ranking-toggle-btn" class="btn btn-secondary">ランキングを見る</button>
+            
+            <div id="ranking-display" class="ranking-display hidden">
+                <h2>ランキング Top 10</h2>
+                <div id="ranking-list" class="ranking-list"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- カテゴリ選択画面 -->
+    <div id="category-screen" class="screen">
+        <div class="container">
+            <h2>カテゴリを選択</h2>
+            <div id="category-list" class="category-list"></div>
+        </div>
+    </div>
+
+    <!-- カウントダウン画面 -->
+    <div id="countdown-screen" class="screen">
+        <div class="container">
+            <div id="countdown-number" class="countdown-number">5</div>
+        </div>
+    </div>
+
+    <!-- クイズ画面 -->
+    <div id="quiz-screen" class="screen">
+        <div class="container">
+            <div class="quiz-header">
+                <span id="quiz-progress" class="quiz-progress">1/10</span>
+                <span id="quiz-timer" class="quiz-timer">0.0秒</span>
+            </div>
+            
+            <div id="quiz-question" class="quiz-question"></div>
+            
+            <div id="quiz-options" class="quiz-options"></div>
+        </div>
+    </div>
+
+    <!-- 正誤表示画面 -->
+    <div id="result-screen" class="screen">
+        <div class="container">
+            <div id="answer-result" class="answer-result"></div>
+            <div id="correct-answer" class="correct-answer"></div>
+            <div id="next-countdown" class="next-countdown">次の問題まで <span id="next-timer">5</span>秒</div>
+        </div>
+    </div>
+
+    <!-- 最終結果画面 -->
+    <div id="final-screen" class="screen">
+        <div class="container">
+            <h2>結果発表</h2>
+            <div id="final-result" class="final-result"></div>
+            <div id="confetti-canvas"></div>
+            <button id="back-to-title-btn" class="btn btn-primary">タイトルに戻る</button>
+        </div>
+    </div>
+
+    <!-- Loading -->
+    <div id="loading" class="loading hidden">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- p5.js for confetti -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.7.0/p5.min.js"></script>
+    
+    <!-- Application Scripts -->
+    <script src="/flashquiz_bob/js/confetti.js"></script>
+    <script src="/flashquiz_bob/js/quiz.js"></script>
+    <script src="/flashquiz_bob/js/app.js"></script>
+</body>
+</html>
