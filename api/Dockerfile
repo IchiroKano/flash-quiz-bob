@@ -7,7 +7,7 @@ WORKDIR /app
 COPY package*.json ./
 
 # 依存関係インストール
-RUN npm ci --only=production
+RUN npm install --production
 
 # アプリケーションコードをコピー
 COPY src ./src
