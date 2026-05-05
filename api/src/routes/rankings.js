@@ -24,16 +24,14 @@ router.get('/:categoryId', async (req, res, next) => {
 
     // ランキング取得（正解数降順、回答時間昇順、登録日時昇順）
     const [rankings] = await db.query(
-      `SELECT 
+      `SELECT
+        @rank := @rank + 1 AS rank,
         nickname,
         total_correct AS totalCorrect,
         total_time_ms AS totalTimeMs,
-        created_at AS createdAt,
-        ROW_NUMBER() OVER (
-          ORDER BY total_correct DESC, total_time_ms ASC, created_at ASC
-        ) AS rank
-       FROM scores 
-       WHERE category_id = ? 
+        created_at AS createdAt
+       FROM scores, (SELECT @rank := 0) r
+       WHERE category_id = ?
        ORDER BY total_correct DESC, total_time_ms ASC, created_at ASC
        LIMIT 10`,
       [categoryId]

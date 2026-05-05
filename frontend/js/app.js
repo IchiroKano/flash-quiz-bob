@@ -163,6 +163,11 @@ function startQuizQuestion() {
 
 // クイズ表示
 function displayQuiz(quiz) {
+    console.log('displayQuiz called:', quiz); // デバッグログ
+    if (!quiz || !quiz.options) {
+        console.error('Invalid quiz data:', quiz);
+        return;
+    }
     elements.quizProgress.textContent = `${quizManager.currentQuizIndex + 1}/10`;
     elements.quizQuestion.textContent = quiz.question;
     
