@@ -186,46 +186,12 @@ function selectAnswer(quizId, selectedAnswer) {
     clearInterval(questionTimer);
     quizManager.recordAnswer(quizId, selectedAnswer);
     
-    // 正解を取得（実際の正解は表示しない）
-    showAnswerResult(selectedAnswer);
-}
-
-// 正誤表示
-function showAnswerResult(selectedAnswer) {
-    showScreen('result');
-    
-    // ランダムに正誤を決定（実際のロジックではAPIから取得）
-    const isCorrect = Math.random() > 0.3; // 70%の確率で正解
-    
-    elements.answerResult.textContent = isCorrect ? '正解！' : '不正解';
-    elements.answerResult.className = `answer-result ${isCorrect ? 'correct' : 'incorrect'}`;
-    
-    elements.correctAnswer.textContent = isCorrect ? 
-        'よくできました！' : 
-        '正解は別の選択肢でした';
-    
-    startNextCountdown();
-}
-
-// 次の問題へのカウントダウン
-function startNextCountdown() {
-    let count = 5;
-    elements.nextTimer.textContent = count;
-    
-    const nextInterval = setInterval(() => {
-        count--;
-        if (count > 0) {
-            elements.nextTimer.textContent = count;
-        } else {
-            clearInterval(nextInterval);
-            
-            if (quizManager.nextQuiz()) {
-                startQuizQuestion();
-            } else {
-                submitScoreAndShowResult();
-            }
-        }
-    }, 1000);
+    // 次の問題へ進むか、結果表示へ
+    if (quizManager.nextQuiz()) {
+        startQuizQuestion();
+    } else {
+        submitScoreAndShowResult();
+    }
 }
 
 // 問題タイマー
@@ -266,15 +232,19 @@ function displayFinalResult(result) {
         <div class="result-ranking">第${result.ranking}位</div>
     `;
     
-    if (result.ranking <= 3) {
-        elements.finalResult.innerHTML = scoreHtml + 
-            '<div class="celebration">🎉 おめでとうございます！ 🎉</div>';
+    // ランキング1位の場合のみ紙吹雪でお祝い
+    if (result.ranking === 1) {
+        elements.finalResult.innerHTML = scoreHtml +
+            '<div class="celebration">🎉🎊 ランキング1位おめでとうございます！ 🎊🎉</div>';
         startConfetti();
         
-        // 5秒後に紙吹雪停止
+        // 10秒後に紙吹雪停止
         setTimeout(() => {
             stopConfetti();
-        }, 5000);
+        }, 10000);
+    } else if (result.ranking <= 3) {
+        elements.finalResult.innerHTML = scoreHtml +
+            '<div class="celebration">🎉 おめでとうございます！ 🎉</div>';
     } else {
         elements.finalResult.innerHTML = scoreHtml;
     }
