@@ -36,10 +36,10 @@
 
 ### 1. GitHubでプライベートリポジトリを作成
 
-1. GitHubにログイン: https://github.com
+1. GitHubにログイン: https://github.com/IchiroKano
 2. 右上の「+」→「New repository」をクリック
 3. リポジトリ情報を入力:
-   - **Repository name**: `flash-quiz-app`（任意の名前）
+   - **Repository name**: `flash-quiz-bob`（任意の名前）
    - **Description**: `フラッシュクイズ - 昭和レトロの想い出`
    - **Visibility**: 🔒 **Private** を選択
    - **Initialize this repository with**: チェックを入れない
